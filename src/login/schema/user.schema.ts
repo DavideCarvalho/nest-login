@@ -1,14 +1,14 @@
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 
-export interface IUserSchema extends Document {
+export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
   telephones: [{ number: number, ddd: number }];
 }
 
-export const UserSchema = new mongoose.Schema({
+export const User = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
@@ -20,4 +20,4 @@ export const UserSchema = new mongoose.Schema({
   ],
 });
 
-UserSchema.set('timestamps', true);
+User.set('timestamps', true);
