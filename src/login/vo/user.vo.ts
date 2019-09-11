@@ -1,11 +1,24 @@
 import { TelephoneVO } from './telephone.vo';
-import { Type } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
 
 export class UserVO {
-  name: string;
+  @Expose()
+  id: string;
+  @Expose()
+  nome: string;
+  @Expose()
   email: string;
-  password: string;
+  @Expose()
+  senha: string;
+  @Exclude()
+  salt: string;
+  @Expose()
   @Type(() => TelephoneVO)
-  telephones: TelephoneVO[];
+  telefones: TelephoneVO[];
+  @Expose()
+  data_atualizacao​: Date;
+  @Expose()
+  data_criacao​: Date;
+  @Expose()
   token: any;
 }

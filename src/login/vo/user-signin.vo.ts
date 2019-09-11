@@ -1,4 +1,4 @@
 export class UserSigninVO {
   email: string;
-  password: string;
+  senha: string;
 }

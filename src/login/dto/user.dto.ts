@@ -3,12 +3,13 @@ import { Type } from 'class-transformer';
 
 export class UserDTO {
   id: string;
-  name: string;
+  nome: string;
   email: string;
-  password: string;
+  senha: string;
+  salt: string;
   @Type(() => TelephoneDTO)
-  telephones: TelephoneDTO[];
-  updatedAt: Date;
-  createdAt: Date;
+  telefones: TelephoneDTO[];
+  data_atualizacao: Date;
+  data_criacao: Date;
   token: any;
 }
