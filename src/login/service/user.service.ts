@@ -7,7 +7,7 @@ import { UserDTO } from '../dto';
 import { classToPlain, deserialize, plainToClass, serialize } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
-import { UserAlreadyExistsException, UserNotFoundException } from '../../commons/exception-filter';
+import { LoginIncorrectException, UserAlreadyExistsException, UserNotFoundException } from '../../commons/exception-filter';
 
 @Injectable()
 export class UserService {
@@ -40,7 +40,7 @@ export class UserService {
       throw new UserNotFoundException();
     }
     if (!(foundUser as any).validPassword(password)) {
-      throw new Error('mail or password incorrect');
+      throw new LoginIncorrectException();
     }
     return this.createToken(deserialize<UserDTO>(
       UserDTO,
@@ -49,7 +49,11 @@ export class UserService {
   }
 
   async findUserById(id: string): Promise<UserDTO> {
-    return this.findById(id);
+    const foundUser = this.findById(id);
+    if (!foundUser) {
+      throw new UserNotFoundException();
+    }
+    return foundUser;
   }
 
   private async findByEmail(email: string): Promise<IUser | null> {
