@@ -7,6 +7,7 @@ import { UserDTO } from '../dto';
 import { classToPlain, deserialize, plainToClass, serialize } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
+import { UserAlreadyExistsException, UserNotFoundException } from '../../commons/exception-filter';
 
 @Injectable()
 export class UserService {
@@ -17,11 +18,9 @@ export class UserService {
   async signUpUser(user: UserDTO) {
     const foundUser: IUser = await this.findByEmail(user.email);
     if (foundUser) {
-      throw new Error('user already exists');
+      throw new UserAlreadyExistsException();
     }
     const salt: string = UserService.createSalt();
-    console.log(user.senha);
-    console.log(salt);
     const hashPassword: string = UserService.createHashedPassword(user.senha, salt);
     const userCreated: IUser = await this.userModel.create({
       ...user,
@@ -38,7 +37,7 @@ export class UserService {
   async signInUser(email: string, password: string): Promise<UserDTO> {
     const foundUser: IUser = await this.findByEmail(email);
     if (!foundUser) {
-      throw new Error('user not found');
+      throw new UserNotFoundException();
     }
     if (!(foundUser as any).validPassword(password)) {
       throw new Error('mail or password incorrect');
