@@ -7,7 +7,7 @@ export interface IUser extends Document {
   email: string;
   senha: string;
   salt: string;
-  ultimo_login: string;
+  ultimo_login: Date;
   telefones: [{ numero: number, ddd: number }];
   data_criacao;
   data_atualizacao;

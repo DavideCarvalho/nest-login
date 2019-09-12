@@ -2,7 +2,7 @@ import { TelephoneVO } from './telephone.vo';
 import { Exclude, Expose, Type } from 'class-transformer';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class UserVO {
+export class UserTokenVO {
   @Expose()
   @ApiModelProperty()
   id: string;
@@ -38,4 +38,8 @@ export class UserVO {
   @Expose()
   @ApiModelProperty()
   data_criacao​: string;
+
+  @Expose()
+  @ApiModelProperty()
+  token: any;
 }

@@ -1,7 +1,7 @@
-import { TelephoneDTO } from './telephone.dto';
 import { Type } from 'class-transformer';
+import { TelephoneDTO } from './telephone.dto';
 
-export class UserDTO {
+export class UserTokenDTO {
   id: string;
   nome: string;
   email: string;
@@ -12,4 +12,5 @@ export class UserDTO {
   telefones: TelephoneDTO[];
   data_atualizacao: string;
   data_criacao: string;
+  token: any;
 }

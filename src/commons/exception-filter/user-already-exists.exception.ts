@@ -3,7 +3,7 @@ import { Response } from 'express';
 
 export class UserAlreadyExistsException extends HttpException {
   constructor() {
-    super('User already exists', HttpStatus.CONFLICT);
+    super('E-mail já existente', HttpStatus.CONFLICT);
   }
 }
 

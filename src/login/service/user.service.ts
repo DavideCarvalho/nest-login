@@ -1,31 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { IUser } from '../schema';
 import 'reflect-metadata';
-import { UserDTO } from '../dto';
+import { UserDTO, UserTokenDTO } from '../dto';
 import { classToPlain, deserialize, plainToClass, serialize } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
 import { LoginIncorrectException, UserAlreadyExistsException, UserNotFoundException } from '../../commons/exception-filter';
+import { UserRepository } from '../repository';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly userModel: Model<IUser>,
-              private readonly jwtService: JwtService) {
+  constructor(
+    private readonly repository: UserRepository,
+    private readonly jwtService: JwtService) {
   }
 
-  async signUpUser(user: UserDTO) {
-    const foundUser: IUser = await this.findByEmail(user.email);
+  async signUpUser(user: UserDTO): Promise<UserTokenDTO> {
+    const foundUser: IUser = await this.repository.findByEmail(user.email);
     if (foundUser) {
       throw new UserAlreadyExistsException();
     }
     const salt: string = UserService.createSalt();
     const hashPassword: string = UserService.createHashedPassword(user.senha, salt);
-    const userCreated: IUser = await this.userModel.create({
+    const userCreated: IUser = await this.repository.createNewUser({
       ...user,
       salt,
       senha: hashPassword,
+      ultimo_login: new Date().toISOString(),
     });
     const userCreatedDto: UserDTO = plainToClass<UserDTO, IUser>(
       UserDTO,
@@ -34,39 +35,23 @@ export class UserService {
     return this.createToken(userCreatedDto);
   }
 
-  async signInUser(email: string, password: string): Promise<UserDTO> {
-    const foundUser: IUser = await this.findByEmail(email);
-    if (!foundUser) {
-      throw new UserNotFoundException();
-    }
+  async signInUser(email: string, password: string): Promise<UserTokenDTO> {
+    const foundUser: IUser = await this.repository.findByEmail(email);
     if (!(foundUser as any).validPassword(password)) {
       throw new LoginIncorrectException();
     }
-    return this.createToken(deserialize<UserDTO>(
+    const foundUserDto: UserDTO = plainToClass<UserDTO, IUser>(
       UserDTO,
-      serialize(foundUser.toJSON({ virtuals: true }), { excludePrefixes: ['_'] }),
-    ));
+      classToPlain<IUser>(foundUser.toJSON({ virtuals: true }), { excludePrefixes: ['_'] }) as IUser,
+    );
+    this.repository.updateUser(foundUserDto.id, { ...foundUserDto, ultimo_login: new Date().toISOString() });
+    return this.createToken(foundUserDto);
   }
 
   async findUserById(id: string): Promise<UserDTO> {
-    const foundUser = this.findById(id);
+    const foundUser: IUser = await this.repository.findById(id);
     if (!foundUser) {
       throw new UserNotFoundException();
-    }
-    return foundUser;
-  }
-
-  private async findByEmail(email: string): Promise<IUser | null> {
-    const foundUsers: IUser[] = await this.userModel.find({ email });
-    return !foundUsers.length
-      ? null
-      : foundUsers[0];
-  }
-
-  private async findById(id: string): Promise<UserDTO | null> {
-    const foundUser: IUser = await this.userModel.findById(id);
-    if (!foundUser) {
-      return null;
     }
     return deserialize<UserDTO>(
       UserDTO,
@@ -74,7 +59,7 @@ export class UserService {
     );
   }
 
-  private createToken(user: UserDTO): UserDTO {
+  private createToken(user: UserDTO): UserTokenDTO {
     return {
       ...user,
       token: this.jwtService.sign(classToPlain<UserDTO>(user)),

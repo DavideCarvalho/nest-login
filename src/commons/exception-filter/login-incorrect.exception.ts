@@ -3,7 +3,7 @@ import { Response } from 'express';
 
 export class LoginIncorrectException extends HttpException {
   constructor() {
-    super('Invalid email or password', HttpStatus.NOT_FOUND);
+    super('Usuário e/ou senha inválidos', HttpStatus.BAD_REQUEST);
   }
 }
 

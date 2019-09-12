@@ -1,14 +1,14 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 
-export class UserNotFoundException extends HttpException {
+export class NotAuthorizedException extends HttpException {
   constructor() {
-    super('Usuário não encontrado', HttpStatus.NOT_FOUND);
+    super('Não autorizado', HttpStatus.UNAUTHORIZED);
   }
 }
 
-@Catch(UserNotFoundException)
-export class UserNotFoundExceptionFilter implements ExceptionFilter {
+@Catch(NotAuthorizedException)
+export class NotAuthorizedExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();

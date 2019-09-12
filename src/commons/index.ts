@@ -6,4 +6,8 @@ export {
   UserNotFoundExceptionFilter,
   LoginIncorrectException,
   LoginIncorrectExceptionFilter,
+  ExpiredTokenException,
+  ExpiredTokenExceptionFilter,
+  NotAuthorizedException,
+  NotAuthorizedExceptionFilter,
 } from './exception-filter';
