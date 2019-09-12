@@ -62,7 +62,7 @@ export class UserService {
   private createToken(user: UserDTO): UserTokenDTO {
     return {
       ...user,
-      token: this.jwtService.sign(serialize<UserDTO>(user)),
+      token: this.jwtService.sign(classToPlain<UserDTO>(user)),
     };
   }
 
