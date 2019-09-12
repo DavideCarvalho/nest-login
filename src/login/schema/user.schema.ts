@@ -28,9 +28,6 @@ export const User = new mongoose.Schema({
 }, { timestamps: { createdAt: 'data_criacao', updatedAt: 'data_atualizacao' } });
 
 User.methods.validPassword = function(password) {
-  console.log(this.salt);
-  console.log(crypto.pbkdf2Sync(password, this.salt, 1000, 64, `sha512`).toString(`hex`));
-  console.log(this.senha);
   const hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, `sha512`).toString(`hex`);
   return this.senha === hash;
 };
