@@ -28,7 +28,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
@@ -44,7 +44,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste1@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
@@ -56,7 +56,7 @@ describe('AppController (e2e)', () => {
             nome: 'teste',
             email: 'teste1@email.com',
             senha: 'teste',
-            telephones: [{
+            telefones: [{
               numero: '123456789',
               ddd: '11',
             }],
@@ -76,7 +76,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste2@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
@@ -100,7 +100,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste3@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
@@ -124,7 +124,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste4@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
@@ -148,7 +148,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste5@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
@@ -178,7 +178,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste6@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
@@ -207,7 +207,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste7@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
@@ -237,7 +237,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste7@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
@@ -267,7 +267,7 @@ describe('AppController (e2e)', () => {
         nome: 'teste',
         email: 'teste7@email.com',
         senha: 'teste',
-        telephones: [{
+        telefones: [{
           numero: '123456789',
           ddd: '11',
         }],
