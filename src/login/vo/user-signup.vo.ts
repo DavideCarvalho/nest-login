@@ -10,6 +10,7 @@ export class UserSignupVO {
   nome: string;
 
   @IsEmail()
+  @IsNotEmpty()
   @ApiModelProperty({ required: true })
   email: string;
 
