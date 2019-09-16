@@ -3,6 +3,7 @@ import * as request from 'supertest';
 import * as jsonwebtoken from 'jsonwebtoken';
 import { AppModule } from '../src/app.module';
 import { JwtService } from '@nestjs/jwt';
+import { ValidationPipe } from '@nestjs/common';
 
 describe('AppController (e2e)', () => {
   let app;
@@ -17,6 +18,7 @@ describe('AppController (e2e)', () => {
       .compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
   });
 
